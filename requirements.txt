@@ -1,0 +1,7 @@
+streamlit
+gspread
+oauth2client
+python-dotenv
+groq
+pandas
+matplotlib
