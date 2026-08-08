@@ -4,7 +4,7 @@
 
 ResolveX is an AI-powered customer support ticket management system that automates the support workflow from **ticket submission and AI classification to response generation, email delivery, and ticket tracking**.
 
-The system uses **Groq LLMs** for ticket analysis and response generation, **Google Sheets** for ticket storage, and **Gmail SMTP** for automated customer communication.
+It uses **Groq LLMs** for ticket analysis and response generation, **Google Sheets** for ticket storage, and **Gmail SMTP** for automated customer communication.
 
 ---
 
@@ -12,15 +12,15 @@ The system uses **Groq LLMs** for ticket analysis and response generation, **Goo
 
 - 🎫 Customer support ticket submission
 - 🤖 AI-based sentiment and issue classification
-- ✍️ AI-generated customer replies
+- ✍️ Personalized AI-generated replies
 - 📧 Automated email responses through Gmail SMTP
 - 📋 Pending and processed ticket management
-- 🎯 Ticket filtering by issue category
+- 🎯 Category-based ticket filtering
 - ☑️ Individual and bulk ticket selection
 - 🗑️ Individual and bulk ticket deletion
 - 📊 Support ticket dashboard and analytics
 - 📁 CSV export of processed tickets
-- ☁️ Google Sheets-based ticket storage
+- ☁️ Google Sheets-based cloud storage
 
 ---
 
@@ -29,9 +29,9 @@ The system uses **Groq LLMs** for ticket analysis and response generation, **Goo
 ```text
 Customer
    ↓
-Submit Support Ticket
+Submit Ticket
    ↓
-Google Sheets → PendingTickets
+PendingTickets (Google Sheets)
    ↓
 AI Classification
    ├── Sentiment
@@ -41,22 +41,20 @@ AI Reply Generation
    ↓
 Support Agent Review
    ↓
-Gmail SMTP
+Gmail SMTP → Customer
    ↓
-Customer receives reply
-   ↓
-Google Sheets → ProcessedTickets
+ProcessedTickets (Google Sheets)
 ```
 
 ---
 
 ## 🧠 AI Capabilities
 
-ResolveX uses the **Groq API** with the `llama-3.3-70b-versatile` model for ticket analysis and response generation.
+ResolveX uses the **Groq API** with the `llama-3.3-70b-versatile` model.
 
 ### 🎯 Ticket Classification
 
-Each support ticket is analyzed and classified based on:
+Tickets are classified by:
 
 **Sentiment**
 - Positive
@@ -72,20 +70,7 @@ Each support ticket is analyzed and classified based on:
 
 ### ✍️ AI Reply Generation
 
-The system generates a professional and personalized response using the customer's name and issue description.
-
-Example:
-
-```text
-Hello Onkar,
-
-We understand the issue you are experiencing and appreciate
-you reaching out to our support team. Our team is reviewing
-your request and will assist you with the issue shortly.
-
-Best regards,
-Customer Support Team
-```
+The system generates a professional and personalized response based on the customer's name and issue description.
 
 ---
 
@@ -97,7 +82,7 @@ Customer Support Team
 | Frontend | Streamlit |
 | AI / LLM | Groq API, Llama 3.3 70B |
 | Data Storage | Google Sheets |
-| Google Sheets API | gspread |
+| Sheets API | gspread |
 | Email | Gmail SMTP |
 | Data Processing | Pandas, Matplotlib |
 | Configuration | python-dotenv |
@@ -122,75 +107,64 @@ ResolveX/
     └── sheet_connector.py
 ```
 
-### 📄 File Overview
-
 | File | Purpose |
 |------|---------|
-| `main.py` | Main Streamlit dashboard and ticket management |
+| `main.py` | Streamlit support dashboard and ticket management |
 | `register_ticket.py` | Customer ticket submission interface |
-| `classify_ticket.py` | AI-based sentiment and issue classification |
-| `generate_reply.py` | AI-generated customer response |
+| `classify_ticket.py` | AI sentiment and issue classification |
+| `generate_reply.py` | AI response generation |
 | `gmail_sender.py` | Gmail SMTP email delivery |
-| `sheet_connector.py` | Google Sheets data operations |
-| `requirements.txt` | Project dependencies |
-| `.gitignore` | Prevents sensitive and unnecessary files from being committed |
+| `sheet_connector.py` | Google Sheets operations |
 
 ---
 
 ## ☁️ Google Sheets Storage
 
-ResolveX uses **Google Sheets as a lightweight cloud-based data store**.
-
-The `SupportTickets` spreadsheet contains two worksheets:
+ResolveX uses Google Sheets as a lightweight cloud data store.
 
 ```text
 SupportTickets
 │
 ├── PendingTickets
-│
 └── ProcessedTickets
 ```
 
-### 📋 PendingTickets
+**PendingTickets** stores incoming tickets awaiting processing.
 
-Stores customer tickets waiting to be analyzed and processed.
-
-### ✅ ProcessedTickets
-
-Stores processed tickets along with their classification, sentiment, and generated response for historical tracking.
+**ProcessedTickets** stores processed tickets along with their classification, sentiment, and generated response.
 
 ---
 
-# ⚙️ Installation
+## ⚙️ Installation
 
-## 1. Clone the Repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/OnkarShesh/ResolveX.git
 cd ResolveX
 ```
 
-## 2. Create a Virtual Environment
+### 2. Create a Virtual Environment
 
 ```bash
 python -m venv venv
 ```
 
-## 3. Activate the Virtual Environment
+### 3. Activate the Environment
 
-### Windows PowerShell
+**Windows PowerShell:**
 
 ```powershell
 .\venv\Scripts\activate
 ```
 
-### macOS / Linux
+**macOS / Linux:**
 
 ```bash
 source venv/bin/activate
 ```
 
-## 4. Install Dependencies
+### 4. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -198,7 +172,7 @@ pip install -r requirements.txt
 
 ---
 
-# 🔐 Environment Configuration
+## 🔐 Environment Configuration
 
 Create a `.env` file in the project root:
 
@@ -208,135 +182,71 @@ EMAIL_ADDRESS=your_gmail_address
 EMAIL_APP_PASSWORD=your_gmail_app_password
 ```
 
-Also place your Google service-account credentials in:
+Place the Google service-account credentials in:
 
 ```text
 google_cred.json
 ```
 
-The Google service account must have access to the **SupportTickets** Google Spreadsheet.
+The service account must have access to the **SupportTickets** Google Spreadsheet.
 
 > ⚠️ Never commit `.env` or `google_cred.json` to GitHub.
 
 ---
 
-# ▶️ Running ResolveX
+## ▶️ Running the Application
 
-ResolveX has **two Streamlit applications** that can be run separately.
+ResolveX has two Streamlit applications.
 
-## 1. 🎫 Customer Ticket Submission
+### 🎫 1. Customer Ticket Submission
 
-Start the customer-facing ticket submission interface:
+Run:
 
 ```bash
 streamlit run register_ticket.py
 ```
 
-This opens the customer ticket submission page.
-
-Customers can enter:
+Customers can submit:
 
 - Full Name
 - Email Address
 - Issue Type
 - Issue Description
 
-After submission, the ticket is automatically stored in:
+Submitted tickets are automatically stored in:
 
 ```text
 Google Sheets → PendingTickets
 ```
 
----
+### 🤖 2. AI Ticket Manager
 
-## 2. 🤖 AI Ticket Manager
-
-Open another terminal, activate the same virtual environment, and run:
+Open another terminal, activate the virtual environment, and run:
 
 ```bash
 streamlit run main.py
 ```
 
-The AI Ticket Manager allows the support team to:
+The support dashboard allows agents to:
 
-- 📋 View pending tickets
-- 🤖 Analyze tickets using AI
-- 😊 View ticket sentiment
-- 🎯 View issue categories
-- ✍️ Generate AI replies
-- 📧 Send replies through Gmail SMTP
-- ☑️ Select multiple tickets
-- 📤 Send replies to selected tickets
-- 🗑️ Delete individual tickets
-- 🗑️ Delete selected tickets
-- 📊 View processed tickets
-- 📁 Export processed ticket data as CSV
+- View and analyze tickets
+- Review sentiment and issue categories
+- Generate AI replies
+- Send replies through Gmail
+- Select and process multiple tickets
+- Delete tickets
+- View processed tickets
+- Export ticket data as CSV
 
 ---
 
-# 🔁 Complete Execution Flow
-
-```text
-                 ┌──────────────────────┐
-                 │       Customer       │
-                 └──────────┬───────────┘
-                            │
-                            ▼
-                 ┌──────────────────────┐
-                 │ Submit Support Ticket│
-                 └──────────┬───────────┘
-                            │
-                            ▼
-                 ┌──────────────────────┐
-                 │    PendingTickets    │
-                 │    Google Sheets     │
-                 └──────────┬───────────┘
-                            │
-                            ▼
-                 ┌──────────────────────┐
-                 │   AI Classification  │
-                 │                      │
-                 │ • Sentiment          │
-                 │ • Issue Type         │
-                 └──────────┬───────────┘
-                            │
-                            ▼
-                 ┌──────────────────────┐
-                 │  AI Reply Generation │
-                 └──────────┬───────────┘
-                            │
-                            ▼
-                 ┌──────────────────────┐
-                 │  Support Agent Review│
-                 └──────────┬───────────┘
-                            │
-                            ▼
-                 ┌──────────────────────┐
-                 │      Gmail SMTP      │
-                 └──────────┬───────────┘
-                            │
-                            ▼
-                 ┌──────────────────────┐
-                 │ Customer receives    │
-                 │       reply          │
-                 └──────────┬───────────┘
-                            │
-                            ▼
-                 ┌──────────────────────┐
-                 │   ProcessedTickets   │
-                 │    Google Sheets     │
-                 └──────────────────────┘
-```
-
----
-
-# 📸 Screenshots
+## 📸 Screenshots
 
 ### 🎫 Customer Ticket Submission
 
 _Add screenshot here_
 
-### 📋 Pending Tickets
+### 📋 Pending & Analyzed Tickets
 
 _Add screenshot here_
 
@@ -350,11 +260,9 @@ _Add screenshot here_
 
 ---
 
-# 🔒 Security
+## 🔒 Security
 
-ResolveX keeps sensitive credentials outside the GitHub repository.
-
-The following files should remain local:
+Sensitive credentials are kept outside the GitHub repository.
 
 ```text
 .env
@@ -367,26 +275,22 @@ __pycache__/
 
 API keys, email credentials, and Google service-account credentials should **never** be committed to GitHub.
 
-If credentials are accidentally exposed, they should be revoked and replaced immediately.
+If credentials are accidentally exposed, revoke and replace them immediately.
 
 ---
 
-# 🔮 Future Improvements
+## 🔮 Future Improvements
 
 - 🔐 Role-based support-agent authentication
 - 🚨 Automatic ticket priority detection
 - 📊 Advanced support analytics
-- 💬 Conversation history
-- 🔁 Automated customer follow-ups
+- 💬 Conversation history and follow-ups
 - 🗄️ PostgreSQL database integration
-- 🐳 Docker deployment
-- ☁️ Cloud deployment
-- 🔔 Real-time notifications
-- 📈 Advanced ticket performance metrics
+- 🐳 Docker and cloud deployment
 
 ---
 
-# 👨‍💻 Author
+## 👨‍💻 Author
 
 **Onkar Shesh**
 
@@ -398,6 +302,6 @@ B.Tech — Computer Science and Business Systems
 
 ## ⭐ Project
 
-ResolveX demonstrates an end-to-end AI-powered customer support workflow combining **LLM-based automation, cloud data storage, email communication, and an interactive support dashboard**.
+ResolveX demonstrates an end-to-end AI-powered customer support workflow combining **LLM automation, cloud data storage, email communication, and an interactive support dashboard**.
 
-If you find the project useful, consider giving the repository a ⭐ on GitHub.
+If you find the project useful, consider giving the repository a ⭐.
