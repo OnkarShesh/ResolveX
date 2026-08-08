@@ -244,19 +244,23 @@ The support dashboard allows agents to:
 
 ### 🎫 Customer Ticket Submission
 
-_Add screenshot here_
+![Customer Ticket Submission](screenshots/ticket-submission.png)
 
 ### 📋 Pending & Analyzed Tickets
 
-_Add screenshot here_
+![Pending & Analyzed Tickets](screenshots/pending-tickets.png)
 
-### 🤖 AI Ticket Analysis
+### 🤖 AI Analysis & Generated Reply
 
-_Add screenshot here_
+![AI Analysis](screenshots/ai-analysis.png)
 
-### 📊 Processed Tickets & Analytics
+### 📧 Automated Gmail Response
 
-_Add screenshot here_
+![Automated Gmail Response](screenshots/gmail-response.png)
+
+### 📊 Analytics Dashboard
+
+![Analytics Dashboard](screenshots/analytics-dashboard.png)
 
 ---
 
